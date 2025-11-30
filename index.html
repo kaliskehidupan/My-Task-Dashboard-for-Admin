@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MyTask Dashboard Admin</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="d-flex" id="wrapper">
+      <nav class="sidebar bg-dark p-3 d-flex flex-column" id="sidebar-wrapper">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h3 class="logo-text text-white mb-0">MyTask</h3>
+          <button
+            type="button"
+            class="btn-close btn-close-white d-md-none"
+            aria-label="Close"
+            id="sidebarClose"
+          ></button>
+        </div>
+
+        <div class="list-group list-group-flush mb-4" id="main-menu">
+          <a
+            href="#"
+            class="list-group-item list-group-item-action bg-dark text-white active"
+          >
+            <i class="fas fa-chart-line me-3"></i> Dashboard
+          </a>
+          <a
+            href="#"
+            class="list-group-item list-group-item-action bg-dark text-white"
+          >
+            <i class="fas fa-briefcase me-3"></i> Jobs (CRUD)
+          </a>
+          <a
+            href="#"
+            class="list-group-item list-group-item-action bg-dark text-white"
+          >
+            <i class="fas fa-calendar me-3"></i> Schedule
+          </a>
+          <a
+            href="#"
+            class="list-group-item list-group-item-action bg-dark text-white"
+          >
+            <i class="fas fa-users me-3"></i> Community
+          </a>
+        </div>
+        <h6 class="text-secondary text-uppercase mb-2">Projects</h6>
+        <div class="list-group list-group-flush" id="project-list"></div>
+        <div class="mt-auto pt-3">
+          <a
+            href="#"
+            class="list-group-item list-group-item-action bg-dark text-white"
+          >
+            <i class="fas fa-sign-out-alt me-3"></i> Log Out
+          </a>
+        </div>
+      </nav>
+
+      <div id="page-content-wrapper" class="flex-grow-1">
+        <header
+          class="topbar bg-white shadow-sm p-3 d-flex align-items-center justify-content-between"
+        >
+          <div class="d-flex align-items-center">
+            <button class="btn btn-primary d-md-none me-3" id="sidebarToggle">
+              <i class="fas fa-bars"></i>
+            </button>
+            <h2 class="mb-0">Dashboard</h2>
+          </div>
+          <div class="d-flex align-items-center">
+            <button class="btn btn-light me-2">
+              <i class="fas fa-search"></i>
+            </button>
+            <button class="btn btn-light me-4">
+              <i class="fas fa-bell"></i>
+            </button>
+            <span class="me-2 d-none d-sm-inline">Adam Smith</span>
+            <i class="fas fa-user-circle fs-3 text-secondary"></i>
+          </div>
+        </header>
+
+        <main class="container-fluid p-4">
+          <div class="row">
+            <div class="col-lg-8">
+              <div class="row mb-4" id="task-info-cards"></div>
+
+              <div
+                class="d-flex justify-content-between align-items-center mb-3"
+              >
+                <h4>Project Status</h4>
+                <div>
+                  <span class="badge bg-danger me-2">Ongoing</span>
+                  <span class="badge bg-secondary">Pending</span>
+                </div>
+              </div>
+              <div class="row mb-4" id="project-cards"></div>
+
+              <div class="card shadow mb-4">
+                <div
+                  class="card-header bg-primary text-white d-flex justify-content-between align-items-center"
+                >
+                  Data Proyek (CRUD)
+                  <button
+                    class="btn btn-light btn-sm"
+                    data-bs-toggle="modal"
+                    data-bs-target="#editModal"
+                  >
+                    <i class="fas fa-plus me-1"></i> Tambah Baru
+                  </button>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Nama Proyek</th>
+                          <th>Status</th>
+                          <th>Progress</th>
+                          <th>Aksi</th>
+                        </tr>
+                      </thead>
+                      <tbody id="projectTableBody"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <h4 class="mt-4 mb-3">Task Schedule</h4>
+              <div class="card p-3 shadow" id="task-schedule-container"></div>
+            </div>
+
+            <div class="col-lg-4 d-flex flex-column">
+              <div class="card shadow mb-4">
+                <div class="card-header d-flex justify-content-between">
+                  <h6 class="mb-0">Task Statistic</h6>
+                  <span class="badge bg-light text-dark">Daily</span>
+                </div>
+                <div class="card-body text-center">
+                  <div class="progress-info mb-2">
+                    <small>
+                      <span class="text-success me-2">Completed: 75/100</span>
+                      <span class="text-warning me-2">In Progress: 20/75</span>
+                      <span class="text-danger">Not Started: 20/75</span>
+                    </small>
+                  </div>
+                  <div
+                    class="chart-container mx-auto mb-2"
+                    id="donutChart"
+                  ></div>
+                  <small class="text-muted">Total Hours: 36h 28m</small>
+                </div>
+              </div>
+              <div class="card shadow flex-grow-1">
+                <div class="card-header">
+                  <h5>Task Expenses</h5>
+                </div>
+                <div class="card-body" id="expense-list"></div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <div class="modal fade" id="editModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title" id="modalLabel">Tambah/Ubah Proyek</h5>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="projectForm">
+              <input type="hidden" id="projectId" />
+              <div class="mb-3">
+                <label for="projectName" class="form-label">Nama Proyek</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="projectName"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="projectProgress" class="form-label"
+                  >Progress (%)</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="projectProgress"
+                  min="0"
+                  max="100"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="projectStatus" class="form-label">Status</label>
+                <select class="form-select" id="projectStatus">
+                  <option value="Ongoing">Ongoing</option>
+                  <option value="Pending">Pending</option>
+                  <option value="Completed">Completed</option>
+                </select>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Batal
+            </button>
+            <button type="button" class="btn btn-primary" id="saveProjectBtn">
+              Simpan
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="deleteModal" tabindex="-1">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header bg-danger text-white">
+            <h5 class="modal-title">Hapus Proyek</h5>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            Yakin ingin menghapus proyek: <span id="deleteProjectName"></span>?
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Batal
+            </button>
+            <button type="button" class="btn btn-danger" id="confirmDeleteBtn">
+              Hapus
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
